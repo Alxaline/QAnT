@@ -1,0 +1,39 @@
+# Parameters schemas
+name: MRIparameters
+desc: basic MRI parameters
+
+# QualityMetrics can be used on nii files and dicom files.
+QualityMetrics:
+  - 'mean'
+  - 'range'
+  - 'variance'
+  - 'pcv'
+  - 'cpp'
+  - 'psnr'
+  - 'snr1'
+  - 'snr2'
+  - 'snr3'
+  - 'snr4'
+  - 'cnr'
+  - 'cvp'
+  - 'cjv'
+  - 'efc'
+  - 'fber'
+
+# DicomTags can only be processed on dicom files.
+DicomTags:
+  - 'Rows'
+  - 'Columns'
+  - 'AcquisitionMatrix'
+  - 'PixelSpacing'
+  - 'SliceThickness'
+  - 'PixelBandwidth'
+  - 'Manufacturer'
+  - 'ManufacturerModelName'
+  - 'MagneticFieldStrength'
+  - 'EchoNumbers'
+  - 'EchoTime'
+  - 'EchoTrainLength'
+  - 'InversionTime'
+  - 'RepetitionTime'
+  - 'FlipAngle'

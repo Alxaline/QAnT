@@ -1,0 +1,20 @@
+# Parameters schemas
+type: map
+mapping:
+  name:
+    type: str
+  desc:
+    type: str
+  DicomTags:
+    func: check_dicom_tags
+    sequence:
+      - type: str
+        unique: true
+    type: seq
+  QualityMetrics:
+    func: check_quality_metrics
+    required: true
+    sequence:
+      - type: str
+        unique: true
+    type: seq
