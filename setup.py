@@ -34,7 +34,7 @@ args = dict(
 )
 
 setup(install_requires=['waitress',
-                        'pydicom'
+                        'pydicom',
                         'pykwalify',
                         'numba',
                         'numpy',
@@ -45,8 +45,8 @@ setup(install_requires=['waitress',
                         'six',
                         'dash',
                         'plotly',
-                        'simpleitk'
-                        'monai'
+                        'simpleitk',
+                        'monai',
                         'scikit-learn',
                         'ComScan @ git+https://github.com/ComScan/ComScan.git#egg=ComScan',
                         ], **args)
