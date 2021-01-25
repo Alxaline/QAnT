@@ -6,6 +6,7 @@
 """
 import base64
 import io
+import sys
 
 import dash
 import dash_core_components as dcc
@@ -478,6 +479,10 @@ def df_label_encode(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
-if __name__ == "__main__":
+def main():
     waitress.serve(app.server, host="0.0.0.0", port=8050)
     # app.run_server(debug=True, dev_tools_ui=False, dev_tools_props_check=True)
+
+
+if __name__ == "__main__":
+    sys.exit(main())

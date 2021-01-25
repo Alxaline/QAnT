@@ -7,7 +7,7 @@
 from setuptools import setup, find_packages
 
 console_scripts = ['qant-extractor=QAnT.extractor:main',
-                   'qant-interface=QAnT.interface.__main__:main',
+                   'qant-interface=QAnT.interface:main',
                    ]
 
 with open('README.md') as f:
