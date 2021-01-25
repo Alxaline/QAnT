@@ -76,131 +76,138 @@ app.layout = html.Div([
         ),
     ]),
 
-    # load file
-    # html.Div(id='output-data-upload'),
-
     # allow to only display when a drag & drop is done
-    html.Div(id="display-all-plot", children=[
-        html.Hr(),
-        html.Div([
-            html.Div([
-                html.Div([
-                    html.Button("Parallel Coordinate", id="btn-nclicks-pc", n_clicks=0),  # Button pc
-                    html.Button("Bar Chart", id="btn-nclicks-bc", n_clicks=0),  # Button bc
-                ]),
-                dcc.Dropdown(id="dropdown-menu-pcbc", multi=False, placeholder="Select scale"),
-            ], style={"width": "345px"}),
-            html.Div(id="button-state-pcbc", style={"display": "none"}),  # hidden state to keep state of the button
-            dcc.Graph(id="figure-pcbc"),
-        ]),
-
-        html.Hr(),
-
-        html.Div([
-            html.Div([
-                html.H4("Scatter Plot"),
-                html.Div([
-                    dcc.Dropdown(id="dropdown-menu-scatter-y",
-                                 multi=False,
-                                 placeholder="Select y",
-                                 style={"width": "100%"},
-                                 ),
-                    dcc.Dropdown(id="dropdown-menu-scatter-x",
-                                 multi=False,
-                                 placeholder="Select x",
-                                 style={"width": "100%"},
-
-                                 ),
-                ], style={"display": "flex"},
-                ),
-                dcc.Graph(id="figure-scatter-matrix", )
-            ], className="six columns"),
-
-            html.Div([
-                html.H4("Pearson correlation matrix"),
-                dcc.Dropdown(id="dropdown-menu-heatmap",
-                             placeholder="Select features",
-                             multi=True,
-                             ),
-                dcc.RadioItems(id="radio-heatmap",
-                               options=[
-                                   {"label": "Drop NaNs", "value": "drop"},
-                                   {"label": "Initial State", "value": "init"},
-                               ],
-                               value="init",
-                               labelStyle={"display": "inline-block"}
-                               ),
-                dcc.Graph(id="figure-heatmap", style={"margin": "auto"})
-            ], className="six columns"),
-
-        ], className="row"),
-
-        html.Hr(),
-
-        html.Div([
-            html.Div([
-                html.H4("t-SNE"),
-                html.Div([
-                    dcc.RadioItems(id="radio-tsne",
-                                   options=[
-                                       {"label": "2-D", "value": 2},
-                                       {"label": "3-D", "value": 3},
-                                   ],
-                                   value=2,
-                                   labelStyle={"display": "inline-block"}
-                                   ),
-                ], style={"display": "flex"},
-                ),
-                dcc.Graph(id="figure-tsne"),
-                html.Div(id="figure-tsne-sc", style={"whiteSpace": "pre-line"})
-            ], className="six columns"),
-
-            html.Div([
-                html.H4("UMAP"),
-                html.Div([
-                    dcc.RadioItems(id="radio-umap",
-                                   options=[
-                                       {"label": "2-D", "value": 2},
-                                       {"label": "3-D", "value": 3},
-                                   ],
-                                   value=2,
-                                   labelStyle={"display": "inline-block"}
-                                   ),
-                ], style={"display": "flex"},
-                ),
-                dcc.Graph(id="figure-umap"),
-                html.Div(id="figure-umap-sc", style={"whiteSpace": "pre-line"})
-            ], className="six columns"),
-
-        ], className="row"),
-    ],
+    html.Div(id="display-all-plot",
              style={"display": "none"})
 ])
 
 
 @app.callback(
-    Output("display-all-plot", "style"),
+    [Output("display-all-plot", "children"),
+     Output("display-all-plot", "style")],
     [Input("table-filtering-be", "columns")])
 def display_all_plot(df):
+    plot = html.Div([])
+    style = {"display": "none"}
     if df:
-        return {"display": "block"}
-    else:
-        return {"display": "none"}
+        plot = html.Div([
+            html.Hr(),
+            html.Div([
+                html.Div([
+                    html.Div([
+                        html.Button("Parallel Coordinate", id="btn-nclicks-pc", n_clicks=0),  # Button pc
+                        html.Button("Bar Chart", id="btn-nclicks-bc", n_clicks=0),  # Button bc
+                    ]),
+                    dcc.Dropdown(id="dropdown-menu-pcbc", multi=False, placeholder="Select scale"),
+                ], style={"width": "345px"}),
+                html.Div(id="button-state-pcbc", style={"display": "none"}),  # hidden state to keep state of the button
+                dcc.Graph(id="figure-pcbc"),
+            ]),
+
+            html.Hr(),
+
+            html.Div([
+                html.Div([
+                    html.H4("Scatter Plot"),
+                    html.Div([
+                        dcc.Dropdown(id="dropdown-menu-scatter-y",
+                                     multi=False,
+                                     placeholder="Select y",
+                                     style={"width": "100%"},
+                                     ),
+                        dcc.Dropdown(id="dropdown-menu-scatter-x",
+                                     multi=False,
+                                     placeholder="Select x",
+                                     style={"width": "100%"},
+
+                                     ),
+                    ], style={"display": "flex"},
+                    ),
+                    dcc.Graph(id="figure-scatter-matrix", )
+                ], className="six columns"),
+
+                html.Div([
+                    html.H4("Pearson correlation matrix"),
+                    dcc.Dropdown(id="dropdown-menu-heatmap",
+                                 placeholder="Select features",
+                                 multi=True,
+                                 ),
+                    dcc.RadioItems(id="radio-heatmap",
+                                   options=[
+                                       {"label": "Drop NaNs", "value": "drop"},
+                                       {"label": "Initial State", "value": "init"},
+                                   ],
+                                   value="init",
+                                   labelStyle={"display": "inline-block"}
+                                   ),
+                    dcc.Graph(id="figure-heatmap", style={"margin": "auto"})
+                ], className="six columns"),
+
+            ], className="row"),
+
+            html.Hr(),
+
+            html.Div([
+                html.Div([
+                    html.H4("t-SNE"),
+                    html.Div([
+                        dcc.RadioItems(id="radio-tsne",
+                                       options=[
+                                           {"label": "2-D", "value": 2},
+                                           {"label": "3-D", "value": 3},
+                                       ],
+                                       value=2,
+                                       labelStyle={"display": "inline-block"}
+                                       ),
+                    ], style={"display": "flex"},
+                    ),
+                    dcc.Graph(id="figure-tsne"),
+                    html.Div(id="figure-tsne-sc", style={"whiteSpace": "pre-line"})
+                ], className="six columns"),
+
+                html.Div([
+                    html.H4("UMAP"),
+                    html.Div([
+                        dcc.RadioItems(id="radio-umap",
+                                       options=[
+                                           {"label": "2-D", "value": 2},
+                                           {"label": "3-D", "value": 3},
+                                       ],
+                                       value=2,
+                                       labelStyle={"display": "inline-block"}
+                                       ),
+                    ], style={"display": "flex"},
+                    ),
+                    dcc.Graph(id="figure-umap"),
+                    html.Div(id="figure-umap-sc", style={"whiteSpace": "pre-line"})
+                ], className="six columns"),
+
+            ], className="row"),
+
+        ])
+        style = {"display": "block"}
+
+    return plot, style
 
 
 @app.callback(
-    Output("get-fn", "children"),
+    [Output("get-fn", "children"),
+     Output("get-fn", "data")],
     [
         Input("upload-data", "contents"),
         Input("upload-data", "filename"),
     ])
-def get_df(contents, filename):
-    fn = html.Div()
+def get_fn(contents, filename):
     if contents:
+        contents = contents[0]
         filename = filename[0]
+        df = parse_data(contents, filename)
+        if not isinstance(df, pd.DataFrame):
+            return df, None
         fn = html.Div([
             html.H5(filename)])
-    return fn
+        return fn, df.to_dict('records')
+    return html.Div(), None
 
 
 def parse_data(contents, filename):
@@ -272,19 +279,15 @@ def split_filter_part(filter_part):
      Output("table-filtering-be", "columns"),
      Output("table-filtering-be", "export_format"),
      ],
-    [Input("upload-data", "contents"),
-     Input("upload-data", "filename"),
+    [Input("get-fn", "data"),
      Input("table-filtering-be", "filter_query")])
-def update_table(contents, filename, filter_):
+def update_table(df, filter_):
     filtering_expressions = filter_.split(" && ")
-
-    df = pd.DataFrame([])
-    columns = []
+    data = None
+    columns = None
     export_format = None
-    if contents:
-        contents = contents[0]
-        filename = filename[0]
-        df = parse_data(contents, filename)
+    if df:
+        df = pd.DataFrame(df)
 
         for filter_part in filtering_expressions:
             col_name, operator, filter_value = split_filter_part(filter_part)
@@ -306,8 +309,8 @@ def update_table(contents, filename, filter_):
                     "type": "numeric",
                     } for i in df.columns]
         export_format = "csv"
-
-    return df.to_dict("records"), columns, export_format
+        data = df.to_dict("records")
+    return data, columns, export_format
 
 
 @app.callback(
