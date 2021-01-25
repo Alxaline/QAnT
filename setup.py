@@ -26,6 +26,8 @@ args = dict(
     url='https://github.com/Alxaline/QAnT',
     license=license,
     packages=find_packages(exclude=['docs']),
+    package_data={'QAnT': ['schemas/param_schema.yaml', 'schemas/schema_funcs.py',
+                           'example_parameters/default_parameters.yaml.yaml']},
     python_requires='>=3.6',
     entry_points={
         'console_scripts': console_scripts
