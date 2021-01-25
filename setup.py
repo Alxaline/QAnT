@@ -48,5 +48,5 @@ setup(install_requires=['waitress',
                         'simpleitk',
                         'monai',
                         'scikit-learn',
-                        'ComScan @ git+https://github.com/ComScan/ComScan.git#egg=ComScan',
+                        'ComScan @ git+https://github.com/Alxaline/ComScan.git#egg=ComScan',
                         ], **args)
