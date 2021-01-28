@@ -178,12 +178,16 @@ def _multi(function: Callable, iterable: Sequence, arg, n_jobs: int = 1, prefix_
     :param prefix_logger: prefix for logger
     :return: list of result
     """
+    result = []
     with ThreadPoolExecutor(max_workers=n_jobs) as executor:
         jobs = [executor.submit(function, i, arg) for i in iterable]
 
         for i, out in enumerate(as_completed(jobs)):
-            logger.info(f"{prefix_logger}{i + 1}/{len(iterable)}")  # out.result()
-        result = [r.result() for r in jobs]
+            logger.info(f"{prefix_logger}{i + 1}/{len(iterable)}")
+            try:
+                result.append(out.result())
+            except Exception as e:
+                logger.exception(f"An exception was thrown in multiprocess {e}")
 
     return result
 
@@ -281,8 +285,8 @@ def process(input_directories: List, parameters_file: str, output_filepath: str,
     # export to csv
     if not final_df.empty:
         logger.info(f"Export results to: {output_filepath} ")
-        if not os.path.exists(output_filepath):
-            os.makedirs(output_filepath, exist_ok=True)
+        if not os.path.exists(os.path.dirname(output_filepath)):
+            os.makedirs(os.path.dirname(output_filepath), exist_ok=True)
         final_df.to_csv(output_filepath, sep=",", na_rep="", index=False)
 
 

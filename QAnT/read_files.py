@@ -60,6 +60,9 @@ def safe_sitk_read(img_list, *args, **kwargs):
         Old solution - Since the default function just looks at images 0 and 1 to determine slice thickness
         and the images are often not correctly alphabetically sorted, much slower
 
+    .. warning::
+        DICOM files need to be folder sorted
+
     :param img_list: file list of dicom files
     :return: sitk image
     """
