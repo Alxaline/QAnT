@@ -6,6 +6,10 @@
 """
 
 import logging
+import os
+import shutil
+import tempfile
+from glob import glob
 from typing import List, Tuple, Optional, Union
 
 import SimpleITK as sitk
@@ -47,19 +51,38 @@ def rescale_values(header: Optional = None) -> Union[float, int]:
     return slope, intercept
 
 
-def safe_sitk_read(img_list: List, *args, **kwargs) -> sitk.Image:
+def safe_sitk_read(img_list, *args, **kwargs):
     """
-    Since the default function just looks at images 0 and 1 to determine slice thickness
-    and the images are often not correctly alphabetically sorted, much slower
+    The solution is to presort the files using the GetGDCMSeriesFileNames function. Slower because copy file in a temp
+    folder
 
-    :param img_list: sitk.Image, Multidimensional array with pixel data, metadata.
-    :return: sitk.Image
+    .. note::
+        Old solution - Since the default function just looks at images 0 and 1 to determine slice thickness
+        and the images are often not correctly alphabetically sorted, much slower
+
+    :param img_list: file list of dicom files
+    :return: sitk image
     """
 
-    pimg_list = [(sitk.ReadImage(x).GetOrigin(), x) for x in img_list]
+    # copy file and make temp folder ! obligatory if several instanceNumber or multiframe
+    dir_name = os.path.dirname(img_list[0])
 
-    s_img_list = [path for _, path in sorted(pimg_list, key=lambda x: x[0][2], reverse=False)]  # sort by z
-    return sitk.ReadImage(s_img_list, *args, **kwargs)
+    # get dcm files in dirname
+    dcm_file_in_dir_name = glob(os.path.join(dir_name, '*.dcm'), recursive=False)
+    if list(set(dcm_file_in_dir_name) - set(img_list)) or len(
+            np.unique(list(map(lambda x: os.path.basename(os.path.dirname(x)), img_list)))) > 1:
+
+        with tempfile.TemporaryDirectory() as tmp_dir_name:
+            for f in img_list:
+                shutil.copy2(f, os.path.join(tmp_dir_name, os.path.basename(f)))
+
+            s_img_list = sitk.ImageSeriesReader().GetGDCMSeriesFileNames(tmp_dir_name)
+            img = sitk.ReadImage(s_img_list, *args, **kwargs)
+    else:
+        s_img_list = sitk.ImageSeriesReader().GetGDCMSeriesFileNames(dir_name)
+        img = sitk.ReadImage(s_img_list, *args, **kwargs)
+
+    return img
 
 
 def read_dicom_files(file_list: List) -> sitk.Image:
