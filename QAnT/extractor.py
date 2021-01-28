@@ -281,8 +281,8 @@ def process(input_directories: List, parameters_file: str, output_filepath: str,
     # export to csv
     if not final_df.empty:
         logger.info(f"Export results to: {output_filepath} ")
-        if not os.path.exists(os.path.dirname(os.path.abspath(output_filepath))):
-            os.makedirs(os.path.dirname(os.path.abspath(output_filepath)), exist_ok=True)
+        if not os.path.exists(output_filepath):
+            os.makedirs(output_filepath, exist_ok=True)
         final_df.to_csv(output_filepath, sep=",", na_rep="", index=False)
 
 
