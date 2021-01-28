@@ -202,7 +202,7 @@ def process(input_directories: List, parameters_file: str, output_filepath: str,
     """
 
     # check input_directories
-    map(check_isdir, input_directories)
+    list(map(check_isdir, input_directories))
 
     # check extension of output_filepath
     output_filepath = check_ext(output_filepath, extension=[".csv"])
