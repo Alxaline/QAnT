@@ -211,6 +211,10 @@ def process(input_directories: List, parameters_file: str, output_filepath: str,
     # check extension of output_filepath
     output_filepath = check_ext(output_filepath, extension=[".csv"])
 
+    # create export dir if not exist
+    if not os.path.exists(os.path.dirname(output_filepath)):
+        os.makedirs(os.path.dirname(output_filepath), exist_ok=True)
+
     # safe file name
     pth, fnm, ext = split_filename(output_filepath)
     fnm = safe_file_name(fnm)
@@ -285,8 +289,6 @@ def process(input_directories: List, parameters_file: str, output_filepath: str,
     # export to csv
     if not final_df.empty:
         logger.info(f"Export results to: {output_filepath} ")
-        if not os.path.exists(os.path.dirname(output_filepath)):
-            os.makedirs(os.path.dirname(output_filepath), exist_ok=True)
         final_df.to_csv(output_filepath, sep=",", na_rep="", index=False)
 
 
