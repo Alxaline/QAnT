@@ -178,15 +178,21 @@ def fill_mask(mask_arr: np.ndarray) -> np.ndarray:
 
 def get_mask(input_array: np.ndarray) -> np.ndarray:
     """
-    # Function from cBrainMRIPrePro
+    Function from cBrainMRIPrePro
     Get a mask. Based on Otsu threshold and noise reduced. Then result mask is holes filled.
 
     :param input_array: input image array
     :return: binary head mask
     """
-    thresh = threshold_otsu(input_array)
-    otsu_mask = input_array > thresh
-    noise_reduced = remove_small_objects(otsu_mask, 10, )
+    if np.count_nonzero(input_array == 0) > np.count_nonzero(input_array):
+        # this condition is used when the image provided can be already normalize ie z-score with
+        # negative values and the background is already set to 0.
+        noise_reduced = np.copy(input_array)
+        noise_reduced[noise_reduced != 0] = 1
+    else:
+        thresh = threshold_otsu(input_array)
+        otsu_mask = input_array > thresh
+        noise_reduced = remove_small_objects(otsu_mask, 10, )
     head_mask = fill_mask(noise_reduced.astype(np.uint8))
     return head_mask
 
