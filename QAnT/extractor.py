@@ -284,12 +284,14 @@ def process(input_directories: List, parameters_file: str, output_filepath: str,
     elif not dcm_df.empty:
         final_df = dcm_df
     elif not nii_metrics_df.empty:
-        final_df = dcm_df
+        final_df = nii_metrics_df
 
     # export to csv
     if not final_df.empty:
         logger.info(f"Export results to: {output_filepath} ")
         final_df.to_csv(output_filepath, sep=",", na_rep="", index=False)
+    else:
+        logger.critical("Final output is empty")
 
 
 def main(args=None) -> Union[int, None]:
