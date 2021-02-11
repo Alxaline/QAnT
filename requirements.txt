@@ -1,5 +1,5 @@
 waitress~=1.4.4
-git+git://github.com/Alxaline/ComScan.git
+git+https://github.com/Alxaline/ComScan.git
 pydicom~=2.1.2
 pykwalify~=1.8.0
 numpy~=1.19.5
