@@ -24,7 +24,6 @@ QualityMetrics:
 DicomTags:
   - 'Rows'
   - 'Columns'
-  - 'AcquisitionMatrix'
   - 'PixelSpacing'
   - 'SliceThickness'
   - 'PixelBandwidth'
