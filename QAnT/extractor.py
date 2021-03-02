@@ -125,6 +125,7 @@ def extract_metric_information(files: Union[List, str], metrics_list: List) -> O
         "background_intensity_voxels": background_intensity_voxels,
         "kernel_size": (5, 5, 5)
     }
+
     for m in metrics_list:
         assert m in ALL_METRICS.keys(), f"Metric is incorrect, possible metric are: {', '.join(ALL_METRICS.keys())}"
         args_needed = inspect.getfullargspec(ALL_METRICS[m]).args

@@ -151,6 +151,7 @@ def snr1(foreground_intensity_voxels: np.ndarray, background_intensity_voxels: n
     :param background_intensity_voxels: array representing the background intensity voxels
     :return: value
     """
+
     return np.nanstd(foreground_intensity_voxels) / np.nanstd(background_intensity_voxels)
 
 
