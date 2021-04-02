@@ -252,13 +252,13 @@ def process(input_directories: List, parameters_file: str, output_filepath: str,
     seen_dirs, dcm_in_seen_dirs, dcm_scans_list = get_unique_scan_series_dicom(dcm_files)
     dcm_df, nii_metrics_df = pd.DataFrame([]), pd.DataFrame([])
     if dcm_files:
-        if validate_params_file.source["DicomTags"]:
+        if "DicomTags" in validate_params_file.source and validate_params_file.source["DicomTags"]:
             logger.info("Extracting metadata from dicom scan series...")
             dicom_metadata_list = _multi(extract_dicom_metadata, dcm_scans_list,
                                          validate_params_file.source["DicomTags"], n_jobs, "[DicomTags] ")
             dcm_df = pd.DataFrame(dicom_metadata_list, columns=dicom_metadata_list[0].keys())
 
-        if validate_params_file.source["QualityMetrics"]:
+        if "QualityMetrics" in validate_params_file.source and validate_params_file.source["QualityMetrics"]:
             logger.info("Extracting metrics from dicom scan series...")
             dicom_metrics_list = _multi(extract_metric_information, dcm_in_seen_dirs,
                                         validate_params_file.source["QualityMetrics"], n_jobs,
@@ -270,10 +270,10 @@ def process(input_directories: List, parameters_file: str, output_filepath: str,
                 dcm_df = dicom_metrics_df
 
     if nii_files:
-        if validate_params_file.source["DicomTags"]:
+        if "DicomTags" in validate_params_file.source and validate_params_file.source["DicomTags"]:
             logger.warning("DicomTags are specified but can not be run for NIfTI files")
 
-        if validate_params_file.source["QualityMetrics"]:
+        if "QualityMetrics" in validate_params_file.source and validate_params_file.source["QualityMetrics"]:
             logger.info("Extracting metrics from dicom scan series...")
             nii_metrics_list = _multi(extract_metric_information, nii_files,
                                       validate_params_file.source["QualityMetrics"], n_jobs, "[NIfTI QualityMetrics] ")

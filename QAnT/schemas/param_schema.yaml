@@ -13,7 +13,7 @@ mapping:
     type: seq
   QualityMetrics:
     func: check_quality_metrics
-    required: true
+    required: false
     sequence:
       - type: str
         unique: true
