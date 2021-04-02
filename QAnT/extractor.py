@@ -256,14 +256,15 @@ def process(input_directories: List, parameters_file: str, output_filepath: str,
             logger.info("Extracting metadata from dicom scan series...")
             dicom_metadata_list = _multi(extract_dicom_metadata, dcm_scans_list,
                                          validate_params_file.source["DicomTags"], n_jobs, "[DicomTags] ")
-            dcm_df = pd.DataFrame(dicom_metadata_list, columns=dicom_metadata_list[0].keys())
+            print(dicom_metadata_list)
+            dcm_df = pd.DataFrame(dicom_metadata_list)
 
         if "QualityMetrics" in validate_params_file.source and validate_params_file.source["QualityMetrics"]:
             logger.info("Extracting metrics from dicom scan series...")
             dicom_metrics_list = _multi(extract_metric_information, dcm_in_seen_dirs,
                                         validate_params_file.source["QualityMetrics"], n_jobs,
                                         "[Dicom QualityMetrics] ")
-            dicom_metrics_df = pd.DataFrame(dicom_metrics_list, columns=dicom_metrics_list[0].keys())
+            dicom_metrics_df = pd.DataFrame(dicom_metrics_list)
             if not dcm_df.empty:
                 dcm_df = pd.merge(dcm_df, dicom_metrics_df, on="id")
             else:
@@ -277,7 +278,7 @@ def process(input_directories: List, parameters_file: str, output_filepath: str,
             logger.info("Extracting metrics from dicom scan series...")
             nii_metrics_list = _multi(extract_metric_information, nii_files,
                                       validate_params_file.source["QualityMetrics"], n_jobs, "[NIfTI QualityMetrics] ")
-            nii_metrics_df = pd.DataFrame(nii_metrics_list, columns=nii_metrics_list[0].keys())
+            nii_metrics_df = pd.DataFrame(nii_metrics_list)
 
     final_df = pd.DataFrame([])
     if not dcm_df.empty and not nii_metrics_df.empty:
