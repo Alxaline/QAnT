@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 | Function to read files. Dicom and Nii
-| Author: Alexandre CARRE (alexandre.carre@gustaveroussy.fr)
+| Author: Alexandre CARRE
 | Created on: Dec 15, 2019
 """
 

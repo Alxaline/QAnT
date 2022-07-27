@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 | Quality Assessment metrics.
-| Author: Alexandre CARRE (alexandre.carre@gustaveroussy.fr).
+| Author: Alexandre CARRE.
 | Created on: Jan 14, 2021.
 |
 | Initial def:
