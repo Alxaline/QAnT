@@ -10,7 +10,8 @@ Welcome to QAnT's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-   QAnT
+   introduction
+   Python API <modules.rst>
 
 
 Indices and tables

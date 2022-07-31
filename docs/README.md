@@ -12,13 +12,13 @@ pip install -r requirements.txt
 
 ### 2) To automatically generate the documentation:
 ```
-sphinx-apidoc -f -o source ../cBrainMRIPrePro
+sphinx-apidoc -f -o source ../QAnT
 ```
 
 ### 3) Then to build the html or LaTeX version: 
 ```
 cd docs
-make html or make latexpdf
+make clean html or make latexpdf
 ```
 
 The html will be available within the folder [docs/build/html](docs/build/html/index.html).

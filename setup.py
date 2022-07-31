@@ -10,7 +10,7 @@ console_scripts = ['qant-extractor=QAnT.extractor:main',
                    'qant-interface=QAnT.interface:main',
                    ]
 
-with open('README.md') as f:
+with open('README.rst') as f:
     readme = f.read()
 
 with open('LICENSE') as f:
@@ -22,7 +22,6 @@ args = dict(
     description="image Quality Assessment aNd dicom Tags extraction",
     long_description=readme,
     author='Alexandre CARRE',
-    author_email='alexandre.carre@gustaveroussy.fr',
     url='https://github.com/Alxaline/QAnT',
     license=license,
     packages=find_packages(exclude=['docs']),
